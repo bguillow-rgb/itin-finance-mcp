@@ -1,0 +1,295 @@
+{
+  "author": "Timberline Ventures LLC (https://itinlending.net/)",
+  "cloudEndpoint": "https://qnthujurzakdmngcidsg.supabase.co/functions/v1/mcp",
+  "description": "MCP server for the ITIN finance network (itinlending.net, itincreditcard.com, itincreditscore.com): verified ITIN lender & card-issuer directory, 290+ bilingual (EN/ES) guides and 1,800+ FAQs on loans, credit cards, and credit building without an SSN. Editorial reference data with citations — not a lender or broker.",
+  "homepage": "https://itinlending.net/",
+  "identifier": "bguillow-rgb-itin-finance-mcp",
+  "name": "ITIN Finance",
+  "prompts": [],
+  "resources": [],
+  "tags": [
+    "mcp",
+    "model-context-protocol",
+    "itin",
+    "itin-loan",
+    "itin-mortgage",
+    "itin-credit-card",
+    "credit-building",
+    "immigrant-finance",
+    "prestamos-itin",
+    "spanish"
+  ],
+  "tools": [
+    {
+      "name": "search_guides",
+      "description": "Search 290+ editorial guides across the ITIN finance network (loans, mortgages, credit cards, credit scores — English and Spanish). Returns quick answers with canonical article URLs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200,
+            "description": "What the user wants to know, e.g. 'refinance car loan itin' or 'prestamo personal con itin'"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          },
+          "site": {
+            "type": "string",
+            "enum": [
+              "lending",
+              "creditcard",
+              "creditscore"
+            ]
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Search ITIN finance guides",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_guide",
+      "description": "Get one guide by slug or approximate title: quick answer, FAQs, related guides, canonical URL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          }
+        },
+        "required": [
+          "slug"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Get an ITIN finance guide",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "faq_lookup",
+      "description": "Search 1,800+ editorial FAQs for a direct answer to a specific ITIN finance question (EN/ES). Each answer carries its source article URL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Look up an ITIN finance FAQ",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "find_itin_lenders",
+      "description": "List institutions that accept ITIN (no SSN) applicants for a loan or card type, optionally filtered by US state. Every entry states whether it was verified against the institution's own pages, with citation URLs and dates.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "loan_type": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "mortgage",
+              "personal",
+              "business",
+              "credit_card"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 30,
+            "description": "US state name or 2-letter code"
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          }
+        },
+        "required": [
+          "loan_type"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Find ITIN-accepting institutions",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "get_lender_details",
+      "description": "Full verified profile for one institution: ITIN policy, states, membership rules, published terms, citations, and our editorial coverage.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Get institution details",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "can_i_get_this_loan",
+      "description": "The direct answer to 'can I get a(n) X with an ITIN?': the editorial quick answer, typical requirements, and institutions with documented ITIN programs for that loan type (optionally state-filtered). Informational only — not a recommendation or referral. EN/ES.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "loan_type": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "mortgage",
+              "personal",
+              "business",
+              "credit_card"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 30
+          },
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          }
+        },
+        "required": [
+          "loan_type"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "Can I get this with an ITIN?",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "itin_state_info",
+      "description": "State-level context for ITIN holders: state/local taxes paid by undocumented immigrants (ITEP 2022), effective tax rate, driver's-license access law, and the state guide URL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 30
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "ITIN state facts",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "how_to_get_an_itin",
+      "description": "How to apply for an ITIN (IRS Form W-7): the process, documents, timelines, and common mistakes — with the full guide URL. EN/ES.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "es"
+            ],
+            "description": "Answer language: en (default) or es (Spanish)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      },
+      "annotations": {
+        "title": "How to get an ITIN",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": true
+      }
+    }
+  ],
+  "version": "1.0.0"
+}
