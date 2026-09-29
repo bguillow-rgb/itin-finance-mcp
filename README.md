@@ -10,6 +10,16 @@ It gives AI assistants direct, citable access to:
 
 **What this server is not:** it is not a lender, broker, or advisor. It offers no applications, collects nothing from users, and links only to editorial pages and to institutions' own public pages as citations. Educational information only — terms change, verify with the institution.
 
+
+## Key guides the server serves
+
+The most-requested topics, readable directly on the sites:
+
+- [Credit cards that accept an ITIN (verified issuer list)](https://itincreditcard.com/credit-cards-that-accept-itin)
+- [ITIN credit cards guide](https://itincreditcard.com/itin-credit-cards-guide)
+- [Build credit history with an ITIN](https://itincreditscore.com/build-credit-history-with-itin)
+- [How to get an ITIN](https://itinlending.net/how-to-get-an-itin)
+
 ## Tools
 
 | Tool | What it does |
