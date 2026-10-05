@@ -1,0 +1,11 @@
+{
+  "name": "itin-finance-mcp",
+  "version": "1.0.0",
+  "description": "Answers for people with an ITIN instead of an SSN: loans, mortgages, credit cards and credit scores, plus a verified directory of institutions that accept ITIN applicants. English and Spanish.",
+  "mcpServers": {
+    "itin-finance": {
+      "httpUrl": "https://mcp.itinlending.net/mcp?src=gemini"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
